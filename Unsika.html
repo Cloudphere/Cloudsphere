@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudSphere - Cloud Computing Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .nav-menu {
+            margin-top: 30px;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+        }
+        
+        .nav-item i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 400px;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+            width: 100%;
+            font-size: 14px;
+        }
+        
+        .search-bar i {
+            color: var(--dark);
+            opacity: 0.7;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .card-icon.storage {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .card-icon.compute {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .card-icon.database {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--warning);
+        }
+        
+        .card-icon.network {
+            background-color: rgba(72, 149, 239, 0.1);
+            color: var(--accent);
+        }
+        
+        .card-icon.security {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .card h3 {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .card h2 {
+            font-size: 24px;
+            margin: 5px 0 10px;
+        }
+        
+        .card p {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        /* Services Section */
+        .services-section h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: var(--dark);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-card i {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .service-card h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .service-card p {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .quick-action-btn {
+            background-color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .quick-action-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .quick-action-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Feature Pages */
+        .feature-page {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+        
+        .feature-page.active {
+            display: block;
+        }
+        
+        .feature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-header h2 {
+            font-size: 24px;
+            color: var(--dark);
+        }
+        
+        .back-btn {
+            background-color: var(--light);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-btn i {
+            margin-right: 5px;
+        }
+        
+        /* Create VM Form */
+        .vm-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-actions {
+            grid-column: span 2;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: var(--dark);
+            margin-right: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+        }
+        
+        /* File Upload */
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .upload-area h3 {
+            margin-bottom: 10px;
+        }
+        
+        .upload-area p {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .file-list {
+            margin-top: 30px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .file-item i {
+            margin-right: 15px;
+            font-size: 20px;
+            color: var(--primary);
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+        }
+        
+        .file-size {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .file-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .file-action-btn:hover {
+            color: var(--primary);
+        }
+        
+        /* Metrics Dashboard */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .metric-title {
+            font-weight: 500;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .metric-chart {
+            height: 150px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background-color: var(--primary);
+            margin: 0 2px;
+            position: relative;
+            transition: height 0.5s ease;
+        }
+        
+        .chart-bar::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: var(--dark);
+        }
+        
+        .time-filters {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        
+        .time-filter {
+            padding: 5px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .time-filter.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* VM List */
+        .vm-list {
+            margin-top: 20px;
+        }
+        
+        .vm-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .vm-table th, .vm-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .vm-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .vm-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .vm-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-running {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .status-stopped {
+            background-color: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+        
+        .status-error {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--warning);
+        }
+        
+        .vm-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .vm-action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .vm-action-btn i {
+            margin-right: 5px;
+        }
+        
+        /* Database Page */
+        .database-list {
+            margin-top: 20px;
+        }
+        
+        .database-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .database-table th, .database-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .database-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .database-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .database-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-available {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .status-creating {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .status-failed {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--warning);
+        }
+        
+        .database-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .database-action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Networking Page */
+        .network-list {
+            margin-top: 20px;
+        }
+        
+        .network-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .network-table th, .network-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .network-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .network-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .network-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .network-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .network-action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Storage Page */
+        .storage-list {
+            margin-top: 20px;
+        }
+        
+        .storage-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .storage-table th, .storage-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .storage-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .storage-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .storage-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .storage-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .storage-action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Security Page */
+        .security-list {
+            margin-top: 20px;
+        }
+        
+        .security-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .security-table th, .security-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .security-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .security-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .security-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .security-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .security-action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 20px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .vm-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                grid-column: span 1;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .vm-table, .database-table, .network-table, .storage-table, .security-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-cloud"></i>
+                <h1>CloudSphere</h1>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-page="vm">
+                    <i class="fas fa-server"></i>
+                    <span>Virtual Machines</span>
+                </div>
+                <div class="nav-item" data-page="files">
+                    <i class="fas fa-file-upload"></i>
+                    <span>File Storage</span>
+                </div>
+                <div class="nav-item" data-page="metrics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Metrics</span>
+                </div>
+                <div class="nav-item" data-page="database">
+                    <i class="fas fa-database"></i>
+                    <span>Databases</span>
+                </div>
+                <div class="nav-item" data-page="network">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Networking</span>
+                </div>
+                <div class="nav-item" data-page="storage">
+                    <i class="fas fa-hdd"></i>
+                    <span>Storage</span>
+                </div>
+                <div class="nav-item" data-page="security">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Security</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search resources, services...">
+                </div>
+                
+                <div class="user-profile">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEji8e19TWkWr_nRiO6vbzRG2_sXrXJjTEwZVvolrPdBcjRuiKCaThOoCPTE74uM0FqXy9yyWLRiHs3K9-7xARsgmUKtncy1XuITwbihAryixdiX1yzCR03KHC2ZkOViB-fQCUmnoCLpN26VTsQrVCuacGQwOUZ3fGXqSrhrZ4Cw84aiFh0TtCsw5HgH5fK2/s299/log-unsika.png" alt="User">
+                    <span>Kelompok 4 (Kelas B)</span>
+                </div>
+            </div>
+            
+            <!-- Dashboard -->
+            <div id="dashboard-page" class="feature-page active">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Storage Usage</h3>
+                            <div class="card-icon storage">
+                                <i class="fas fa-hdd"></i>
+                            </div>
+                        </div>
+                        <h2 id="storage-used">245 GB</h2>
+                        <p id="storage-percent">65% of 500GB used</p>
+                        <div class="progress-bar" style="margin-top: 10px; height: 5px; background-color: #e9ecef; border-radius: 5px;">
+                            <div id="storage-progress" style="width: 65%; height: 100%; background-color: var(--primary); border-radius: 5px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Compute Instances</h3>
+                            <div class="card-icon compute">
+                                <i class="fas fa-server"></i>
+                            </div>
+                        </div>
+                        <h2 id="vm-count">8</h2>
+                        <p id="vm-status">4 running, 2 stopped, 2 paused</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Database Clusters</h3>
+                            <div class="card-icon database">
+                                <i class="fas fa-database"></i>
+                            </div>
+                        </div>
+                        <h2 id="db-count">3</h2>
+                        <p id="db-status">All systems operational</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Network Traffic</h3>
+                            <div class="card-icon network">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                        </div>
+                        <h2 id="network-traffic">1.2 TB</h2>
+                        <p id="network-period">Monthly data transfer</p>
+                    </div>
+                </div>
+                
+                <div class="services-section">
+                    <h2>Cloud Services</h2>
+                    
+                    <div class="services-grid">
+                        <div class="service-card" data-page="vm">
+                            <i class="fas fa-server"></i>
+                            <h3>Virtual Machines</h3>
+                            <p>Deploy and manage scalable virtual servers with customizable configurations for any workload.</p>
+                        </div>
+                        
+                        <div class="service-card" data-page="files">
+                            <i class="fas fa-file-upload"></i>
+                            <h3>File Storage</h3>
+                            <p>Upload, manage, and share your files with secure cloud storage solutions.</p>
+                        </div>
+                        
+                        <div class="service-card" data-page="metrics">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Metrics & Analytics</h3>
+                            <p>Monitor your cloud resources with real-time metrics and performance analytics.</p>
+                        </div>
+                        
+                        <div class="service-card" data-page="database">
+                            <i class="fas fa-database"></i>
+                            <h3>Database Services</h3>
+                            <p>Fully managed relational and NoSQL databases with high availability.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="quick-action-btn" data-page="vm" id="quick-create-vm">
+                        <i class="fas fa-plus"></i>
+                        <span>Create VM</span>
+                    </button>
+                    
+                    <button class="quick-action-btn" data-page="files">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload Files</span>
+                    </button>
+                    
+                    <button class="quick-action-btn" data-page="metrics">
+                        <i class="fas fa-chart-line"></i>
+                        <span>View Metrics</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Virtual Machines Page -->
+            <div id="vm-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-server"></i> Virtual Machines</h2>
+                    <div>
+                        <button class="btn btn-primary" id="create-vm-btn">
+                            <i class="fas fa-plus"></i> Create VM
+                        </button>
+                        <button class="back-btn" data-page="dashboard">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="vm-list">
+                    <table class="vm-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Region</th>
+                                <th>IP Address</th>
+                                <th>Size</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vm-table-body">
+                            <!-- VMs will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Create VM Modal -->
+            <div class="modal" id="create-vm-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-server"></i> Create Virtual Machine</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="vm-form">
+                            <div class="form-group">
+                                <label for="vm-name">VM Name</label>
+                                <input type="text" id="vm-name" class="form-control" placeholder="e.g., web-server-01">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-region">Region</label>
+                                <select id="vm-region" class="form-control">
+                                    <option value="">Select a region</option>
+                                    <option value="us-east">US East (N. Virginia)</option>
+                                    <option value="us-west">US West (Oregon)</option>
+                                    <option value="eu-central">EU (Frankfurt)</option>
+                                    <option value="asia-southeast">Asia Pacific (Singapore)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-image">Operating System</label>
+                                <select id="vm-image" class="form-control">
+                                    <option value="">Select an OS image</option>
+                                    <option value="ubuntu-20">Ubuntu 20.04 LTS</option>
+                                    <option value="ubuntu-22">Ubuntu 22.04 LTS</option>
+                                    <option value="centos-7">CentOS 7</option>
+                                    <option value="centos-8">CentOS 8</option>
+                                    <option value="windows-2019">Windows Server 2019</option>
+                                    <option value="windows-2022">Windows Server 2022</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-size">Instance Size</label>
+                                <select id="vm-size" class="form-control">
+                                    <option value="">Select a size</option>
+                                    <option value="small">Small - 1 vCPU, 2GB RAM</option>
+                                    <option value="medium">Medium - 2 vCPU, 4GB RAM</option>
+                                    <option value="large">Large - 4 vCPU, 8GB RAM</option>
+                                    <option value="xlarge">XLarge - 8 vCPU, 16GB RAM</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-storage">Storage (GB)</label>
+                                <input type="number" id="vm-storage" class="form-control" value="50" min="20" max="1000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-network">Network Configuration</label>
+                                <select id="vm-network" class="form-control">
+                                    <option value="default">Default Network</option>
+                                    <option value="custom">Custom Network</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-ssh">SSH Key</label>
+                                <input type="text" id="vm-ssh" class="form-control" placeholder="Paste your SSH public key">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vm-tags">Tags (comma separated)</label>
+                                <input type="text" id="vm-tags" class="form-control" placeholder="web, production, backend">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="submit-create-vm">Create Virtual Machine</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File Upload Page -->
+            <div id="files-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-file-upload"></i> File Storage</h2>
+                    <button class="back-btn" data-page="dashboard">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Dashboard
+                    </button>
+                </div>
+                
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop files to upload</h3>
+                    <p>or click to browse files</p>
+                    <button class="btn btn-primary" id="select-files-btn">Select Files</button>
+                    <input type="file" id="file-input" style="display: none;" multiple>
+                </div>
+                
+                <div class="file-list">
+                    <h3>Your Files</h3>
+                    <div id="file-list-container">
+                        <!-- Files will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Metrics Page -->
+            <div id="metrics-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-chart-line"></i> Resource Metrics</h2>
+                    <div>
+                        <button class="back-btn" data-page="dashboard">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="time-filters">
+                    <button class="time-filter active" data-range="1h">1H</button>
+                    <button class="time-filter" data-range="24h">24H</button>
+                    <button class="time-filter" data-range="7d">7D</button>
+                    <button class="time-filter" data-range="30d">30D</button>
+                    <button class="time-filter" data-range="custom">Custom</button>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">CPU Utilization</span>
+                            <span class="metric-percent" id="cpu-percent">42%</span>
+                        </div>
+                        <div class="metric-value">Average: <span id="cpu-avg">42%</span></div>
+                        <div class="metric-chart" id="cpu-chart">
+                            <!-- Chart bars will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Memory Usage</span>
+                            <span class="metric-percent" id="memory-percent">65%</span>
+                        </div>
+                        <div class="metric-value"><span id="memory-used">4.2</span> GB / <span id="memory-total">6.4</span> GB</div>
+                        <div class="metric-chart" id="memory-chart">
+                            <!-- Chart bars will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Disk I/O</span>
+                            <span class="metric-percent" id="disk-io">120 MB/s</span>
+                        </div>
+                        <div class="metric-value">Peak: <span id="disk-peak">150</span> MB/s</div>
+                        <div class="metric-chart" id="disk-chart">
+                            <!-- Chart bars will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Network Traffic</span>
+                            <span class="metric-percent" id="network-traffic-metric">85 Mbps</span>
+                        </div>
+                        <div class="metric-value">In: <span id="network-in">45</span> Mbps / Out: <span id="network-out">40</span> Mbps</div>
+                        <div class="metric-chart" id="network-chart">
+                            <!-- Chart bars will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card" style="grid-column: span 2;">
+                    <div class="metric-header">
+                        <span class="metric-title">Instance Health</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <div>
+                            <div style="font-size: 14px; color: #6c757d;">Running Instances</div>
+                            <div style="font-size: 24px; font-weight: 600;" id="running-instances">8</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 14px; color: #6c757d;">Healthy</div>
+                            <div style="font-size: 24px; font-weight: 600; color: var(--success);" id="healthy-instances">7</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 14px; color: #6c757d;">Warning</div>
+                            <div style="font-size: 24px; font-weight: 600; color: orange;" id="warning-instances">1</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 14px; color: #6c757d;">Critical</div>
+                            <div style="font-size: 24px; font-weight: 600; color: var(--warning);" id="critical-instances">0</div>
+                        </div>
+                    </div>
+                    <div class="metric-chart" style="height: 200px; background-color: #f8f9fa; border-radius: 5px;">
+                        <!-- This would be a line chart in a real implementation -->
+                        <div style="padding: 20px; text-align: center; color: #6c757d;">
+                            <i class="fas fa-chart-line" style="font-size: 48px; opacity: 0.3; margin-bottom: 10px;"></i>
+                            <p>Instance health history chart would be displayed here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Database Page -->
+            <div id="database-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-database"></i> Database Services</h2>
+                    <div>
+                        <button class="btn btn-primary" id="create-database-btn">
+                            <i class="fas fa-plus"></i> Create Database
+                        </button>
+                        <button class="back-btn" data-page="dashboard">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="database-list">
+                    <table class="database-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Engine</th>
+                                <th>Status</th>
+                                <th>Endpoint</th>
+                                <th>Size</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="database-table-body">
+                            <!-- Databases will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Networking Page -->
+            <div id="network-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-network-wired"></i> Networking</h2>
+                    <div>
+                        <button class="btn btn-primary" id="create-network-btn">
+                            <i class="fas fa-plus"></i> Create Network
+                        </button>
+                        <button class="back-btn" data-page="dashboard">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="network-list">
+                    <table class="network-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>CIDR</th>
+                                <th>Connected Resources</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="network-table-body">
+                            <!-- Networks will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Storage Page -->
+            <div id="storage-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-hdd"></i> Storage</h2>
+                    <div>
+                        <button class="btn btn-primary" id="create-storage-btn">
+                            <i class="fas fa-plus"></i> Create Volume
+                        </button>
+                        <button class="back-btn" data-page="dashboard">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="storage-list">
+                    <table class="storage-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Size</th>
+                                <th>Attached To</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="storage-table-body">
+                            <!-- Storage volumes will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Security Page -->
+            <div id="security-page" class="feature-page">
+                <div class="feature-header">
+                    <h2><i class="fas fa-shield-alt"></i> Security</h2>
+                    <div>
+                        <button class="btn btn-primary" id="create-security-btn">
+                            <i class="fas fa-plus"></i> Create Policy
+                        </button>
+                        <button class="back-btn" data-page="dashboard">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="security-list">
+                    <table class="security-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Applied To</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="security-table-body">
+                            <!-- Security policies will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data for the application
+            const sampleData = {
+                vms: [
+                    {
+                        id: 'vm-001',
+                        name: 'web-server-01',
+                        status: 'running',
+                        region: 'us-east',
+                        ip: '192.168.1.101',
+                        size: 'medium',
+                        os: 'ubuntu-20',
+                        storage: 50,
+                        createdAt: '2023-05-15T10:30:00Z'
+                    },
+                    {
+                        id: 'vm-002',
+                        name: 'db-server-01',
+                        status: 'running',
+                        region: 'us-east',
+                        ip: '192.168.1.102',
+                        size: 'large',
+                        os: 'centos-8',
+                        storage: 100,
+                        createdAt: '2023-05-10T14:45:00Z'
+                    },
+                    {
+                        id: 'vm-003',
+                        name: 'dev-server-01',
+                        status: 'stopped',
+                        region: 'us-west',
+                        ip: '192.168.1.103',
+                        size: 'small',
+                        os: 'ubuntu-22',
+                        storage: 30,
+                        createdAt: '2023-05-20T08:15:00Z'
+                    },
+                    {
+                        id: 'vm-004',
+                        name: 'backup-server-01',
+                        status: 'error',
+                        region: 'eu-central',
+                        ip: '192.168.1.104',
+                        size: 'xlarge',
+                        os: 'windows-2019',
+                        storage: 200,
+                        createdAt: '2023-04-28T16:20:00Z'
+                    }
+                ],
+                files: [
+                    {
+                        id: 'file-001',
+                        name: 'Project-Documentation.pdf',
+                        size: 2.4,
+                        type: 'pdf',
+                        uploadedAt: '2023-05-22T09:10:00Z'
+                    },
+                    {
+                        id: 'file-002',
+                        name: 'Website-Banner.png',
+                        size: 1.1,
+                        type: 'image',
+                        uploadedAt: '2023-05-18T14:30:00Z'
+                    },
+                    {
+                        id: 'file-003',
+                        name: 'Backup-Archive.zip',
+                        size: 45.6,
+                        type: 'archive',
+                        uploadedAt: '2023-05-05T11:45:00Z'
+                    }
+                ],
+                databases: [
+                    {
+                        id: 'db-001',
+                        name: 'main-database',
+                        engine: 'MySQL 8.0',
+                        status: 'available',
+                        endpoint: 'main-database.cluster-123456.us-east-1.rds.amazonaws.com:3306',
+                        size: 'db.m5.large',
+                        storage: 100,
+                        createdAt: '2023-04-10T09:15:00Z'
+                    },
+                    {
+                        id: 'db-002',
+                        name: 'analytics-db',
+                        engine: 'PostgreSQL 13',
+                        status: 'available',
+                        endpoint: 'analytics-db.cluster-123456.us-east-1.rds.amazonaws.com:5432',
+                        size: 'db.r5.xlarge',
+                        storage: 500,
+                        createdAt: '2023-05-01T14:30:00Z'
+                    },
+                    {
+                        id: 'db-003',
+                        name: 'cache-store',
+                        engine: 'Redis 6.x',
+                        status: 'creating',
+                        endpoint: 'cache-store.123456.ng.0001.use1.cache.amazonaws.com:6379',
+                        size: 'cache.m6g.large',
+                        storage: 50,
+                        createdAt: '2023-05-24T11:20:00Z'
+                    }
+                ],
+                networks: [
+                    {
+                        id: 'net-001',
+                        name: 'default-vpc',
+                        type: 'VPC',
+                        status: 'active',
+                        cidr: '10.0.0.0/16',
+                        connectedResources: 8,
+                        createdAt: '2023-01-15T08:00:00Z'
+                    },
+                    {
+                        id: 'net-002',
+                        name: 'prod-subnet-1',
+                        type: 'Subnet',
+                        status: 'active',
+                        cidr: '10.0.1.0/24',
+                        connectedResources: 3,
+                        createdAt: '2023-02-20T10:30:00Z'
+                    },
+                    {
+                        id: 'net-003',
+                        name: 'web-load-balancer',
+                        type: 'Load Balancer',
+                        status: 'active',
+                        cidr: 'N/A',
+                        connectedResources: 2,
+                        createdAt: '2023-03-05T14:15:00Z'
+                    }
+                ],
+                storage: [
+                    {
+                        id: 'vol-001',
+                        name: 'web-server-storage',
+                        type: 'SSD',
+                        status: 'in-use',
+                        size: 50,
+                        attachedTo: 'web-server-01',
+                        createdAt: '2023-05-15T10:30:00Z'
+                    },
+                    {
+                        id: 'vol-002',
+                        name: 'db-storage-1',
+                        type: 'SSD',
+                        status: 'in-use',
+                        size: 100,
+                        attachedTo: 'db-server-01',
+                        createdAt: '2023-05-10T14:45:00Z'
+                    },
+                    {
+                        id: 'vol-003',
+                        name: 'backup-volume',
+                        type: 'HDD',
+                        status: 'available',
+                        size: 500,
+                        attachedTo: 'N/A',
+                        createdAt: '2023-04-28T16:20:00Z'
+                    }
+                ],
+                security: [
+                    {
+                        id: 'sec-001',
+                        name: 'web-server-sg',
+                        type: 'Security Group',
+                        status: 'active',
+                        appliedTo: 'web-server-01, web-server-02',
+                        lastModified: '2023-05-18T09:45:00Z',
+                        createdAt: '2023-05-01T08:00:00Z'
+                    },
+                    {
+                        id: 'sec-002',
+                        name: 'db-access-policy',
+                        type: 'IAM Policy',
+                        status: 'active',
+                        appliedTo: 'db-admin-role',
+                        lastModified: '2023-05-10T11:30:00Z',
+                        createdAt: '2023-04-15T14:20:00Z'
+                    },
+                    {
+                        id: 'sec-003',
+                        name: 'ssh-access',
+                        type: 'Firewall Rule',
+                        status: 'active',
+                        appliedTo: 'All servers',
+                        lastModified: '2023-05-22T16:15:00Z',
+                        createdAt: '2023-03-10T09:00:00Z'
+                    }
+                ],
+                metrics: {
+                    cpu: [42, 38, 45, 50, 40, 35, 42],
+                    memory: [65, 60, 62, 68, 64, 63, 65],
+                    disk: [120, 90, 150, 105, 75, 60, 97],
+                    network: [85, 70, 90, 60, 75, 80, 65]
+                },
+                resources: {
+                    storage: {
+                        used: 245,
+                        total: 500,
+                        percent: 65
+                    },
+                    compute: {
+                        running: 4,
+                        stopped: 2,
+                        paused: 2,
+                        total: 8
+                    },
+                    databases: {
+                        total: 3,
+                        status: 'All systems operational'
+                    },
+                    network: {
+                        traffic: '1.2 TB',
+                        period: 'Monthly data transfer'
+                    }
+                }
+            };
+            
+            // Navigation functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            const featurePages = document.querySelectorAll('.feature-page');
+            const quickActionBtns = document.querySelectorAll('.quick-action-btn');
+            const serviceCards = document.querySelectorAll('.service-card');
+            const backBtns = document.querySelectorAll('.back-btn, .btn-secondary');
+            
+            function showPage(pageId) {
+                featurePages.forEach(page => {
+                    page.classList.remove('active');
+                    if (page.id === pageId + '-page') {
+                        page.classList.add('active');
+                    }
+                });
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.dataset.page === pageId) {
+                        item.classList.add('active');
+                    }
+                });
+                
+                // Load data when switching to specific pages
+                if (pageId === 'vm') {
+                    loadVMs();
+                } else if (pageId === 'files') {
+                    loadFiles();
+                } else if (pageId === 'metrics') {
+                    loadMetrics('1h');
+                } else if (pageId === 'database') {
+                    loadDatabases();
+                } else if (pageId === 'network') {
+                    loadNetworks();
+                } else if (pageId === 'storage') {
+                    loadStorage();
+                } else if (pageId === 'security') {
+                    loadSecurity();
+                } else if (pageId === 'dashboard') {
+                    updateDashboard();
+                }
+            }
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    showPage(this.dataset.page);
+                });
+            });
+            
+            quickActionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showPage(this.dataset.page);
+                });
+            });
+            
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    if (this.dataset.page) {
+                        showPage(this.dataset.page);
+                    }
+                });
+            });
+            
+            backBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showPage(this.dataset.page);
+                });
+            });
+            
+            // Modal functionality
+            const createVmModal = document.getElementById('create-vm-modal');
+            const modalCloseBtns = document.querySelectorAll('.modal-close');
+            const createVmBtn = document.getElementById('create-vm-btn');
+            const quickCreateVmBtn = document.getElementById('quick-create-vm');
+            
+            function openModal(modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeModal(modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            if (createVmBtn) {
+                createVmBtn.addEventListener('click', function() {
+                    openModal(createVmModal);
+                });
+            }
+            
+            if (quickCreateVmBtn) {
+                quickCreateVmBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPage('vm');
+                    setTimeout(() => {
+                        openModal(createVmModal);
+                    }, 100);
+                });
+            }
+            
+            modalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    closeModal(createVmModal);
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === createVmModal) {
+                    closeModal(createVmModal);
+                }
+            });
+            
+            // Create VM form submission
+            const submitCreateVm = document.getElementById('submit-create-vm');
+            if (submitCreateVm) {
+                submitCreateVm.addEventListener('click', function() {
+                    const vmName = document.getElementById('vm-name').value;
+                    const vmRegion = document.getElementById('vm-region').value;
+                    const vmImage = document.getElementById('vm-image').value;
+                    const vmSize = document.getElementById('vm-size').value;
+                    
+                    if (!vmName || !vmRegion || !vmImage || !vmSize) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+                    
+                    // Create new VM object
+                    const newVm = {
+                        id: 'vm-' + Math.random().toString(36).substr(2, 8),
+                        name: vmName,
+                        status: 'running',
+                        region: vmRegion,
+                        ip: '192.168.1.' + Math.floor(Math.random() * 100 + 100),
+                        size: vmSize,
+                        os: vmImage,
+                        storage: parseInt(document.getElementById('vm-storage').value),
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    // Add to sample data
+                    sampleData.vms.unshift(newVm);
+                    sampleData.resources.compute.running++;
+                    sampleData.resources.compute.total++;
+                    
+                    // Update UI
+                    loadVMs();
+                    updateDashboard();
+                    
+                    // Close modal and reset form
+                    closeModal(createVmModal);
+                    document.getElementById('vm-name').value = '';
+                    document.getElementById('vm-region').value = '';
+                    document.getElementById('vm-image').value = '';
+                    document.getElementById('vm-size').value = '';
+                    document.getElementById('vm-storage').value = '50';
+                    document.getElementById('vm-ssh').value = '';
+                    document.getElementById('vm-tags').value = '';
+                    
+                    alert(`Virtual Machine "${vmName}" has been created successfully!`);
+                });
+            }
+            
+            // File upload functionality
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+            const selectFilesBtn = document.getElementById('select-files-btn');
+            
+            if (uploadArea && fileInput && selectFilesBtn) {
+                selectFilesBtn.addEventListener('click', function() {
+                    fileInput.click();
+                });
+                
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        handleFiles(this.files);
+                    }
+                });
+                
+                // Drag and drop functionality
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.style.borderColor = 'var(--primary)';
+                    this.style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+                });
+                
+                uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.style.borderColor = '#ddd';
+                    this.style.backgroundColor = 'transparent';
+                });
+                
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.style.borderColor = '#ddd';
+                    this.style.backgroundColor = 'transparent';
+                    
+                    if (e.dataTransfer.files.length > 0) {
+                        handleFiles(e.dataTransfer.files);
+                    }
+                });
+            }
+            
+            function handleFiles(files) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const fileType = getFileType(file.name);
+                    const fileSize = (file.size / (1024 * 1024)).toFixed(1); // MB
+                    
+                    const newFile = {
+                        id: 'file-' + Math.random().toString(36).substr(2, 8),
+                        name: file.name,
+                        size: parseFloat(fileSize),
+                        type: fileType,
+                        uploadedAt: new Date().toISOString()
+                    };
+                    
+                    sampleData.files.unshift(newFile);
+                }
+                
+                // Update storage usage
+                const totalFilesSize = sampleData.files.reduce((sum, file) => sum + file.size, 0);
+                sampleData.resources.storage.used = 245 + totalFilesSize;
+                sampleData.resources.storage.percent = Math.round((sampleData.resources.storage.used / sampleData.resources.storage.total) * 100);
+                
+                // Update UI
+                loadFiles();
+                updateDashboard();
+                
+                alert(`${files.length} file(s) have been uploaded successfully!`);
+            }
+            
+            function getFileType(filename) {
+                const extension = filename.split('.').pop().toLowerCase();
+                if (['pdf', 'doc', 'docx', 'txt'].includes(extension)) {
+                    return 'document';
+                } else if (['jpg', 'jpeg', 'png', 'gif', 'svg'].includes(extension)) {
+                    return 'image';
+                } else if (['zip', 'rar', 'tar', 'gz'].includes(extension)) {
+                    return 'archive';
+                } else if (['mp4', 'mov', 'avi', 'mkv'].includes(extension)) {
+                    return 'video';
+                } else if (['mp3', 'wav', 'ogg'].includes(extension)) {
+                    return 'audio';
+                } else {
+                    return 'file';
+                }
+            }
+            
+            // VM management functions
+            function loadVMs() {
+                const vmTableBody = document.getElementById('vm-table-body');
+                if (!vmTableBody) return;
+                
+                vmTableBody.innerHTML = '';
+                
+                sampleData.vms.forEach(vm => {
+                    const row = document.createElement('tr');
+                    
+                    // Status badge
+                    let statusBadge;
+                    if (vm.status === 'running') {
+                        statusBadge = '<span class="vm-status status-running">Running</span>';
+                    } else if (vm.status === 'stopped') {
+                        statusBadge = '<span class="vm-status status-stopped">Stopped</span>';
+                    } else {
+                        statusBadge = '<span class="vm-status status-error">Error</span>';
+                    }
+                    
+                    // Actions
+                    let actions = '';
+                    if (vm.status === 'running') {
+                        actions = `
+                            <button class="vm-action-btn" data-action="stop" data-vm="${vm.id}">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>
+                            <button class="vm-action-btn" data-action="restart" data-vm="${vm.id}">
+                                <i class="fas fa-redo"></i> Restart
+                            </button>
+                        `;
+                    } else if (vm.status === 'stopped') {
+                        actions = `
+                            <button class="vm-action-btn" data-action="start" data-vm="${vm.id}">
+                                <i class="fas fa-play"></i> Start
+                            </button>
+                        `;
+                    } else {
+                        actions = `
+                            <button class="vm-action-btn" data-action="restart" data-vm="${vm.id}">
+                                <i class="fas fa-redo"></i> Restart
+                            </button>
+                        `;
+                    }
+                    
+                    actions += `
+                        <button class="vm-action-btn" data-action="delete" data-vm="${vm.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    `;
+                    
+                    row.innerHTML = `
+                        <td>${vm.name}</td>
+                        <td>${statusBadge}</td>
+                        <td>${vm.region}</td>
+                        <td>${vm.ip}</td>
+                        <td>${vm.size}</td>
+                        <td>
+                            <div class="vm-actions">
+                                ${actions}
+                            </div>
+                        </td>
+                    `;
+                    
+                    vmTableBody.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('[data-action]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const action = this.dataset.action;
+                        const vmId = this.dataset.vm;
+                        const vm = sampleData.vms.find(v => v.id === vmId);
+                        
+                        if (action === 'start') {
+                            vm.status = 'running';
+                            alert(`VM ${vm.name} has been started.`);
+                        } else if (action === 'stop') {
+                            vm.status = 'stopped';
+                            alert(`VM ${vm.name} has been stopped.`);
+                        } else if (action === 'restart') {
+                            alert(`VM ${vm.name} is restarting...`);
+                            setTimeout(() => {
+                                vm.status = 'running';
+                                loadVMs();
+                            }, 2000);
+                        } else if (action === 'delete') {
+                            if (confirm(`Are you sure you want to delete VM ${vm.name}?`)) {
+                                const index = sampleData.vms.findIndex(v => v.id === vmId);
+                                if (index !== -1) {
+                                    if (sampleData.vms[index].status === 'running') {
+                                        sampleData.resources.compute.running--;
+                                    }
+                                    sampleData.resources.compute.total--;
+                                    sampleData.vms.splice(index, 1);
+                                    alert(`VM ${vm.name} has been deleted.`);
+                                }
+                            } else {
+                                return;
+                            }
+                        }
+                        
+                        updateDashboard();
+                        loadVMs();
+                    });
+                });
+            }
+            
+            // Database management functions
+            function loadDatabases() {
+                const databaseTableBody = document.getElementById('database-table-body');
+                if (!databaseTableBody) return;
+                
+                databaseTableBody.innerHTML = '';
+                
+                sampleData.databases.forEach(db => {
+                    const row = document.createElement('tr');
+                    
+                    // Status badge
+                    let statusBadge;
+                    if (db.status === 'available') {
+                        statusBadge = '<span class="database-status status-available">Available</span>';
+                    } else if (db.status === 'creating') {
+                        statusBadge = '<span class="database-status status-creating">Creating</span>';
+                    } else {
+                        statusBadge = '<span class="database-status status-failed">Failed</span>';
+                    }
+                    
+                    // Actions
+                    let actions = '';
+                    if (db.status === 'available') {
+                        actions = `
+                            <button class="database-action-btn" data-action="connect" data-db="${db.id}">
+                                <i class="fas fa-plug"></i> Connect
+                            </button>
+                            <button class="database-action-btn" data-action="backup" data-db="${db.id}">
+                                <i class="fas fa-database"></i> Backup
+                            </button>
+                        `;
+                    } else if (db.status === 'creating') {
+                        actions = `
+                            <button class="database-action-btn" disabled>
+                                <i class="fas fa-spinner fa-spin"></i> Creating
+                            </button>
+                        `;
+                    }
+                    
+                    actions += `
+                        <button class="database-action-btn" data-action="delete" data-db="${db.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    `;
+                    
+                    row.innerHTML = `
+                        <td>${db.name}</td>
+                        <td>${db.engine}</td>
+                        <td>${statusBadge}</td>
+                        <td>${db.endpoint}</td>
+                        <td>${db.size}</td>
+                        <td>
+                            <div class="database-actions">
+                                ${actions}
+                            </div>
+                        </td>
+                    `;
+                    
+                    databaseTableBody.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('[data-action][data-db]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const action = this.dataset.action;
+                        const dbId = this.dataset.db;
+                        const db = sampleData.databases.find(d => d.id === dbId);
+                        
+                        if (action === 'connect') {
+                            alert(`Connecting to database: ${db.name}\nEndpoint: ${db.endpoint}`);
+                        } else if (action === 'backup') {
+                            alert(`Creating backup for database: ${db.name}`);
+                        } else if (action === 'delete') {
+                            if (confirm(`Are you sure you want to delete database ${db.name}?`)) {
+                                const index = sampleData.databases.findIndex(d => d.id === dbId);
+                                if (index !== -1) {
+                                    sampleData.databases.splice(index, 1);
+                                    sampleData.resources.databases.total--;
+                                    updateDashboard();
+                                    alert(`Database ${db.name} has been deleted.`);
+                                    loadDatabases();
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // Network management functions
+            function loadNetworks() {
+                const networkTableBody = document.getElementById('network-table-body');
+                if (!networkTableBody) return;
+                
+                networkTableBody.innerHTML = '';
+                
+                sampleData.networks.forEach(net => {
+                    const row = document.createElement('tr');
+                    
+                    // Status badge
+                    let statusBadge = `<span class="network-status status-available">${net.status}</span>`;
+                    
+                    // Actions
+                    let actions = `
+                        <button class="network-action-btn" data-action="view" data-net="${net.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="network-action-btn" data-action="delete" data-net="${net.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    `;
+                    
+                    row.innerHTML = `
+                        <td>${net.name}</td>
+                        <td>${net.type}</td>
+                        <td>${statusBadge}</td>
+                        <td>${net.cidr}</td>
+                        <td>${net.connectedResources}</td>
+                        <td>
+                            <div class="network-actions">
+                                ${actions}
+                            </div>
+                        </td>
+                    `;
+                    
+                    networkTableBody.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('[data-action][data-net]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const action = this.dataset.action;
+                        const netId = this.dataset.net;
+                        const net = sampleData.networks.find(n => n.id === netId);
+                        
+                        if (action === 'view') {
+                            alert(`Viewing network: ${net.name}\nType: ${net.type}\nCIDR: ${net.cidr}`);
+                        } else if (action === 'delete') {
+                            if (confirm(`Are you sure you want to delete network ${net.name}?`)) {
+                                const index = sampleData.networks.findIndex(n => n.id === netId);
+                                if (index !== -1) {
+                                    sampleData.networks.splice(index, 1);
+                                    alert(`Network ${net.name} has been deleted.`);
+                                    loadNetworks();
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // Storage management functions
+            function loadStorage() {
+                const storageTableBody = document.getElementById('storage-table-body');
+                if (!storageTableBody) return;
+                
+                storageTableBody.innerHTML = '';
+                
+                sampleData.storage.forEach(vol => {
+                    const row = document.createElement('tr');
+                    
+                    // Status badge
+                    let statusBadge = `<span class="storage-status status-available">${vol.status}</span>`;
+                    
+                    // Actions
+                    let actions = `
+                        <button class="storage-action-btn" data-action="attach" data-vol="${vol.id}" ${vol.status === 'in-use' ? 'disabled' : ''}>
+                            <i class="fas fa-link"></i> Attach
+                        </button>
+                        <button class="storage-action-btn" data-action="delete" data-vol="${vol.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    `;
+                    
+                    row.innerHTML = `
+                        <td>${vol.name}</td>
+                        <td>${vol.type}</td>
+                        <td>${statusBadge}</td>
+                        <td>${vol.size} GB</td>
+                        <td>${vol.attachedTo}</td>
+                        <td>
+                            <div class="storage-actions">
+                                ${actions}
+                            </div>
+                        </td>
+                    `;
+                    
+                    storageTableBody.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('[data-action][data-vol]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const action = this.dataset.action;
+                        const volId = this.dataset.vol;
+                        const vol = sampleData.storage.find(v => v.id === volId);
+                        
+                        if (action === 'attach') {
+                            const vmName = prompt("Enter VM name to attach this volume to:");
+                            if (vmName) {
+                                vol.attachedTo = vmName;
+                                vol.status = 'in-use';
+                                alert(`Volume ${vol.name} has been attached to ${vmName}`);
+                                loadStorage();
+                            }
+                        } else if (action === 'delete') {
+                            if (confirm(`Are you sure you want to delete volume ${vol.name}?`)) {
+                                const index = sampleData.storage.findIndex(v => v.id === volId);
+                                if (index !== -1) {
+                                    sampleData.storage.splice(index, 1);
+                                    sampleData.resources.storage.used -= vol.size;
+                                    sampleData.resources.storage.percent = Math.round((sampleData.resources.storage.used / sampleData.resources.storage.total) * 100);
+                                    updateDashboard();
+                                    alert(`Volume ${vol.name} has been deleted.`);
+                                    loadStorage();
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // Security management functions
+            function loadSecurity() {
+                const securityTableBody = document.getElementById('security-table-body');
+                if (!securityTableBody) return;
+                
+                securityTableBody.innerHTML = '';
+                
+                sampleData.security.forEach(sec => {
+                    const row = document.createElement('tr');
+                    
+                    // Status badge
+                    let statusBadge = `<span class="security-status status-available">${sec.status}</span>`;
+                    
+                    // Actions
+                    let actions = `
+                        <button class="security-action-btn" data-action="view" data-sec="${sec.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="security-action-btn" data-action="edit" data-sec="${sec.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="security-action-btn" data-action="delete" data-sec="${sec.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    `;
+                    
+                    row.innerHTML = `
+                        <td>${sec.name}</td>
+                        <td>${sec.type}</td>
+                        <td>${statusBadge}</td>
+                        <td>${sec.appliedTo}</td>
+                        <td>${new Date(sec.lastModified).toLocaleDateString()}</td>
+                        <td>
+                            <div class="security-actions">
+                                ${actions}
+                            </div>
+                        </td>
+                    `;
+                    
+                    securityTableBody.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('[data-action][data-sec]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const action = this.dataset.action;
+                        const secId = this.dataset.sec;
+                        const sec = sampleData.security.find(s => s.id === secId);
+                        
+                        if (action === 'view') {
+                            alert(`Viewing security policy: ${sec.name}\nType: ${sec.type}\nApplied To: ${sec.appliedTo}`);
+                        } else if (action === 'edit') {
+                            alert(`Editing security policy: ${sec.name}`);
+                        } else if (action === 'delete') {
+                            if (confirm(`Are you sure you want to delete security policy ${sec.name}?`)) {
+                                const index = sampleData.security.findIndex(s => s.id === secId);
+                                if (index !== -1) {
+                                    sampleData.security.splice(index, 1);
+                                    alert(`Security policy ${sec.name} has been deleted.`);
+                                    loadSecurity();
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // File management functions
+            function loadFiles() {
+                const fileListContainer = document.getElementById('file-list-container');
+                if (!fileListContainer) return;
+                
+                fileListContainer.innerHTML = '';
+                
+                sampleData.files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    let fileIcon;
+                    if (file.type === 'pdf') {
+                        fileIcon = '<i class="fas fa-file-pdf"></i>';
+                    } else if (file.type === 'image') {
+                        fileIcon = '<i class="fas fa-file-image"></i>';
+                    } else if (file.type === 'archive') {
+                        fileIcon = '<i class="fas fa-file-archive"></i>';
+                    } else {
+                        fileIcon = '<i class="fas fa-file"></i>';
+                    }
+                    
+                    const uploadedDate = new Date(file.uploadedAt);
+                    const formattedDate = uploadedDate.toLocaleDateString() + ' ' + uploadedDate.toLocaleTimeString();
+                    
+                    fileItem.innerHTML = `
+                        ${fileIcon}
+                        <div class="file-info">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${file.size} MB - Uploaded ${formattedDate}</div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="file-action-btn" data-action="download" data-file="${file.id}">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="file-action-btn" data-action="share" data-file="${file.id}">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="file-action-btn" data-action="delete" data-file="${file.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    fileListContainer.appendChild(fileItem);
+                });
+                
+                // Add event listeners to file action buttons
+                document.querySelectorAll('[data-action][data-file]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const action = this.dataset.action;
+                        const fileId = this.dataset.file;
+                        const file = sampleData.files.find(f => f.id === fileId);
+                        
+                        if (action === 'download') {
+                            alert(`Downloading file: ${file.name}`);
+                        } else if (action === 'share') {
+                            alert(`Share link for ${file.name} has been copied to clipboard.`);
+                        } else if (action === 'delete') {
+                            if (confirm(`Are you sure you want to delete ${file.name}?`)) {
+                                const index = sampleData.files.findIndex(f => f.id === fileId);
+                                if (index !== -1) {
+                                    // Update storage usage
+                                    sampleData.resources.storage.used -= file.size;
+                                    sampleData.resources.storage.percent = Math.round((sampleData.resources.storage.used / sampleData.resources.storage.total) * 100);
+                                    
+                                    sampleData.files.splice(index, 1);
+                                    alert(`File ${file.name} has been deleted.`);
+                                    loadFiles();
+                                    updateDashboard();
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // Metrics functions
+            function loadMetrics(range) {
+                // Update time filter buttons
+                document.querySelectorAll('.time-filter').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.range === range) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Generate random data based on range
+                let dataPoints = 7;
+                if (range === '1h') dataPoints = 12;
+                if (range === '24h') dataPoints = 24;
+                if (range === '7d') dataPoints = 7;
+                if (range === '30d') dataPoints = 30;
+                
+                const newMetrics = {
+                    cpu: Array(dataPoints).fill(0).map(() => Math.floor(Math.random() * 30 + 20)),
+                    memory: Array(dataPoints).fill(0).map(() => Math.floor(Math.random() * 15 + 50)),
+                    disk: Array(dataPoints).fill(0).map(() => Math.floor(Math.random() * 60 + 40)),
+                    network: Array(dataPoints).fill(0).map(() => Math.floor(Math.random() * 40 + 40))
+                };
+                
+                // Update charts
+                updateChart('cpu-chart', newMetrics.cpu, '%');
+                updateChart('memory-chart', newMetrics.memory, '%');
+                updateChart('disk-chart', newMetrics.disk, 'MB/s');
+                updateChart('network-chart', newMetrics.network, 'Mbps');
+                
+                // Update summary values
+                const cpuAvg = Math.round(newMetrics.cpu.reduce((a, b) => a + b, 0) / newMetrics.cpu.length);
+                document.getElementById('cpu-percent').textContent = newMetrics.cpu[newMetrics.cpu.length - 1] + '%';
+                document.getElementById('cpu-avg').textContent = cpuAvg + '%';
+                
+                const memoryUsed = (sampleData.resources.storage.total * (newMetrics.memory[newMetrics.memory.length - 1] / 100)).toFixed(1);
+                document.getElementById('memory-percent').textContent = newMetrics.memory[newMetrics.memory.length - 1] + '%';
+                document.getElementById('memory-used').textContent = memoryUsed;
+                document.getElementById('memory-total').textContent = sampleData.resources.storage.total;
+                
+                const diskPeak = Math.max(...newMetrics.disk);
+                document.getElementById('disk-io').textContent = newMetrics.disk[newMetrics.disk.length - 1] + ' MB/s';
+                document.getElementById('disk-peak').textContent = diskPeak;
+                
+                const networkIn = newMetrics.network[newMetrics.network.length - 1];
+                const networkOut = Math.floor(networkIn * 0.8);
+                document.getElementById('network-traffic-metric').textContent = networkIn + ' Mbps';
+                document.getElementById('network-in').textContent = networkIn;
+                document.getElementById('network-out').textContent = networkOut;
+            }
+            
+            function updateChart(chartId, values, unit) {
+                const chart = document.getElementById(chartId);
+                if (!chart) return;
+                
+                chart.innerHTML = '';
+                const maxValue = Math.max(...values);
+                
+                values.forEach((value, index) => {
+                    const height = (value / maxValue) * 100;
+                    const bar = document.createElement('div');
+                    bar.className = 'chart-bar';
+                    bar.style.height = height + '%';
+                    bar.dataset.value = value + unit;
+                    
+                    // Add animation delay for visual effect
+                    bar.style.transitionDelay = (index * 0.1) + 's';
+                    
+                    chart.appendChild(bar);
+                });
+            }
+            
+            // Time filter buttons for metrics
+            document.querySelectorAll('.time-filter').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    loadMetrics(this.dataset.range);
+                });
+            });
+            
+            // Dashboard update function
+            function updateDashboard() {
+                // Update storage card
+                document.getElementById('storage-used').textContent = sampleData.resources.storage.used + ' GB';
+                document.getElementById('storage-percent').textContent = sampleData.resources.storage.percent + '% of ' + sampleData.resources.storage.total + 'GB used';
+                document.getElementById('storage-progress').style.width = sampleData.resources.storage.percent + '%';
+                
+                // Update compute card
+                document.getElementById('vm-count').textContent = sampleData.resources.compute.total;
+                document.getElementById('vm-status').textContent = 
+                    `${sampleData.resources.compute.running} running, ${sampleData.resources.compute.stopped} stopped, ${sampleData.resources.compute.paused} paused`;
+                
+                // Update database card
+                document.getElementById('db-count').textContent = sampleData.resources.databases.total;
+                document.getElementById('db-status').textContent = sampleData.resources.databases.status;
+                
+                // Update network card
+                document.getElementById('network-traffic').textContent = sampleData.resources.network.traffic;
+                document.getElementById('network-period').textContent = sampleData.resources.network.period;
+                
+                // Update instance health in metrics
+                document.getElementById('running-instances').textContent = sampleData.resources.compute.total;
+                document.getElementById('healthy-instances').textContent = sampleData.resources.compute.running;
+                document.getElementById('warning-instances').textContent = sampleData.resources.compute.stopped;
+                document.getElementById('critical-instances').textContent = sampleData.vms.filter(vm => vm.status === 'error').length;
+            }
+            
+            // Initialize the application
+            updateDashboard();
+            loadMetrics('1h');
+            
+            // Simulate real-time updates
+            setInterval(() => {
+                // Randomly update some metrics
+                if (Math.random() > 0.7) {
+                    const activeTimeFilter = document.querySelector('.time-filter.active');
+                    if (activeTimeFilter) {
+                        loadMetrics(activeTimeFilter.dataset.range);
+                    }
+                }
+                
+                // Randomly change VM status (for demo purposes)
+                if (Math.random() > 0.9 && sampleData.vms.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * sampleData.vms.length);
+                    const vm = sampleData.vms[randomIndex];
+                    
+                    if (vm.status === 'running' && Math.random() > 0.5) {
+                        vm.status = 'stopped';
+                        sampleData.resources.compute.running--;
+                    } else if (vm.status === 'stopped' && Math.random() > 0.5) {
+                        vm.status = 'running';
+                        sampleData.resources.compute.running++;
+                    } else if (vm.status === 'running' && Math.random() > 0.8) {
+                        vm.status = 'error';
+                        sampleData.resources.compute.running--;
+                    }
+                    
+                    if (document.getElementById('vm-page').classList.contains('active')) {
+                        loadVMs();
+                    }
+                    updateDashboard();
+                }
+                
+                // Update database creation status (for demo purposes)
+                if (Math.random() > 0.9 && sampleData.databases.length > 0) {
+                    const creatingDb = sampleData.databases.find(db => db.status === 'creating');
+                    if (creatingDb && Math.random() > 0.7) {
+                        creatingDb.status = 'available';
+                        if (document.getElementById('database-page').classList.contains('active')) {
+                            loadDatabases();
+                        }
+                    }
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
