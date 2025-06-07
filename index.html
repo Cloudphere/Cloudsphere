@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudSphere - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .login-form h2 {
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-google {
+            background-color: white;
+            color: #757575;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .btn-google:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .btn-google i {
+            margin-right: 10px;
+            color: #DB4437;
+            font-size: 18px;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider::before {
+            margin-right: 10px;
+        }
+        
+        .divider::after {
+            margin-left: 10px;
+        }
+        
+        .login-footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Register form styles */
+        .register-form {
+            display: none;
+        }
+        
+        .name-fields {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .name-fields .form-group {
+            flex: 1;
+        }
+        
+        /* Toggle between login and register */
+        .form-toggle {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .form-toggle a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .form-toggle a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <i class="fas fa-cloud"></i>
+            <h1>CloudSphere</h1>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="login-form" id="login-form">
+            <h2>Sign in to your account</h2>
+            
+            <button class="btn btn-google" id="google-login">
+                <i class="fab fa-google"></i>
+                <span>Sign in with Google</span>
+            </button>
+            
+            <div class="divider">or</div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email address</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group" style="text-align: right;">
+                    <a href="#" id="forgot-password" style="font-size: 13px;">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+            
+            <div class="form-toggle">
+                Don't have an account? <a id="show-register">Sign up</a>
+            </div>
+        </div>
+        
+        <!-- Register Form -->
+        <div class="register-form" id="register-form">
+            <h2>Create a new account</h2>
+            
+            <button class="btn btn-google" id="google-register">
+                <i class="fab fa-google"></i>
+                <span>Sign up with Google</span>
+            </button>
+            
+            <div class="divider">or</div>
+            
+            <form id="registerForm">
+                <div class="name-fields">
+                    <div class="form-group">
+                        <label for="first-name">First name</label>
+                        <input type="text" id="first-name" class="form-control" placeholder="First name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last name</label>
+                        <input type="text" id="last-name" class="form-control" placeholder="Last name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">Email address</label>
+                    <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" class="form-control" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+            
+            <div class="form-toggle">
+                Already have an account? <a id="show-login">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between login and register forms
+            const showRegister = document.getElementById('show-register');
+            const showLogin = document.getElementById('show-login');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (showRegister && showLogin) {
+                showRegister.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'block';
+                });
+                
+                showLogin.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    registerForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                });
+            }
+            
+            // Handle login form submission
+            const loginFormElement = document.getElementById('loginForm');
+            if (loginFormElement) {
+                loginFormElement.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    // Simple validation
+                    if (!email || !password) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+                    
+                    // In a real app, you would send this to your backend
+                    console.log('Login attempt with:', email, password);
+                    
+                    // For demo purposes, we'll just redirect to the main app
+                    window.location.href = 'Unsika.html';
+                });
+            }
+            
+            // Handle register form submission
+            const registerFormElement = document.getElementById('registerForm');
+            if (registerFormElement) {
+                registerFormElement.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const firstName = document.getElementById('first-name').value;
+                    const lastName = document.getElementById('last-name').value;
+                    const email = document.getElementById('register-email').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    // Validation
+                    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match');
+                        return;
+                    }
+                    
+                    if (password.length < 8) {
+                        alert('Password must be at least 8 characters');
+                        return;
+                    }
+                    
+                    // In a real app, you would send this to your backend
+                    console.log('Registration with:', {
+                        firstName,
+                        lastName,
+                        email,
+                        password
+                    });
+                    
+                    // For demo purposes, we'll just redirect to the main app
+                    window.location.href = 'Unsika.html';
+                });
+            }
+            
+            // Google login/register handlers
+            const googleLogin = document.getElementById('google-login');
+            const googleRegister = document.getElementById('google-register');
+            
+            if (googleLogin) {
+                googleLogin.addEventListener('click', function() {
+                    // In a real app, this would trigger Google OAuth flow
+                    console.log('Google login clicked');
+                    
+                    // For demo purposes, we'll just redirect to the main app
+                    window.location.href = 'Unsika.html';
+                });
+            }
+            
+            if (googleRegister) {
+                googleRegister.addEventListener('click', function() {
+                    // In a real app, this would trigger Google OAuth flow
+                    console.log('Google register clicked');
+                    
+                    // For demo purposes, we'll just redirect to the main app
+                    window.location.href = 'Unsika.html';
+                });
+            }
+            
+            // Forgot password handler
+            const forgotPassword = document.getElementById('forgot-password');
+            if (forgotPassword) {
+                forgotPassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = prompt('Please enter your email address to reset your password:');
+                    if (email) {
+                        // In a real app, you would send a reset password email
+                        console.log('Password reset requested for:', email);
+                        alert('If an account exists with this email, you will receive a password reset link.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
